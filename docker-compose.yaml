@@ -1,0 +1,14 @@
+version: "3"
+services:
+  send:
+    build: ./
+  benthos:
+    image: jeffail/benthos
+    volumes:
+    - "./conf/webhook.yaml:/benthos.yaml"
+    ports:
+    - "4195:4195"
+  smtp2http:
+    image: uflare/smtp2http
+    command: --listen=:25 --webhook=http://benthos:4195/ --strict=false
+  
